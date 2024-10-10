@@ -1,4 +1,4 @@
-## **Machine learning detects hidden treatment response patterns only in the presence of comprehensive clinical phenotyping**
+## [**Machine learning detects hidden treatment response patterns only in the presence of comprehensive clinical phenotyping**](https://www.medrxiv.org/content/10.1101/2024.10.09.24315155v1)
 
 **Stephen D. Auger and Gregory Scott**
 
@@ -11,4 +11,3 @@ This is the data and code accompanying the research paper above.
 
 - figure_functions.py and helper_functions.py contain functions used in the analyses.py script
 
-### Explanation of key findings:
