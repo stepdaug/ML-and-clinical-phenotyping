@@ -100,8 +100,8 @@ def plot_confusion_matrix_with_metrics(ax, cm, title, font_size): # plot detaile
             ["", f"Sensitivity\n{round(sensitivity, 2):.2f}", f"Specificity\n{round(specificity, 2):.2f}", f"{round(accuracy,1):.1f}%\naccurate"],
         ]
 
-    pos_col = "g" # forestgreen
-    neg_col = "r" # indianred
+    pos_col = "tab:orange" #"g" # forestgreen
+    neg_col = "tab:blue" # "r" # indianred
     neut_col = "lemonchiffon"
     title_col = "silver"
     cell_colors = [

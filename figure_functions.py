@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 from helper_functions import *
 
 def figure_2(subgroup_columns,outcome_table):
-    fig_width = 1.2*len(subgroup_columns) # 0.4
+    fig_width = 1.2*len(subgroup_columns) # 0.4 1.2
     fig_height = 1.5*len(subgroup_columns) # 1.0
-    fnt_sz_xlab = 22 # 14
-    fnt_sz_ylab = 13 # 12
+    fnt_sz_xlab = 22 # 22
+    fnt_sz_ylab = 13 # 13
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(fig_width,fig_height))  # Adjust figsize as needed
     fp.forestplot(outcome_table,  # the dataframe with results data
                   estimate="Mean Difference",  # col containing estimated effect size 
@@ -21,7 +21,7 @@ def figure_2(subgroup_columns,outcome_table):
                   varlabel="Label",  # column containing variable label
                   groupvar="Group_variable",  # Add variable groupings 
                   sort=False,  # sort in ascending order (sorts within group if group is specified)               
-                  color_alt_rows=True,  # Gray alternate rows
+                  color_alt_rows=False,  # Gray alternate rows
                   ylabel="Treatment 1",  # ylabel to print
                    **{"ylabel1_size": 16},  # control size of printed ylabel
                   xlabel="Change from baseline",  # x-label title
@@ -30,11 +30,11 @@ def figure_2(subgroup_columns,outcome_table):
                   # Additional kwargs for customizations
                    **{"marker": "D", # diamond marker
                        "markersize": 30,
-                       "offset": 0.35,# override default vertical offset between models (0.0 to 1.0)
+                       "offset": 0.35,# override default vertical offset between models (0.0 to 1.0) 0.35
                        "xlinestyle": (0, (10, 5)),  # long dash for x-reference line
                        "xtick_size": fnt_sz_xlab,  # adjust x-ticker fontsize
                    },
-                  decimal_precision = 2, # how many d.p.
+                  decimal_precision = 1, # how many d.p.
                   ax=axes
                   )
     # Adjust the y-label positions
@@ -83,7 +83,8 @@ def figure_3(conf_matrix_xgb_trial,conf_matrix_xgb_truth):
 def figure_4(shap_values,X_trial_scaled,feature_names):
     plt.rcParams['font.family'] = 'Arial'
     plt.figure(figsize=(18, 12))
-    cmap = cm.get_cmap("Blues")  # You can replace 'viridis' with any valid colormap
+    # cmap = cm.get_cmap("Blues")  # You can replace 'viridis' with any valid colormap
+    cmap = cm.get_cmap("Reds")  # You can replace 'viridis' with any valid colormap
     shap.summary_plot(shap_values, X_trial_scaled, feature_names=feature_names, plot_type="dot", color_bar=False,show=False)
     ax = plt.gca()
     for collection in ax.collections:
@@ -109,7 +110,10 @@ def figure_5(y_trial,X_trial_before_scaled,shap_values,factors_to_exclude):
     # FIGURE 5A
     # X has some very high shap values conditions - look at those, it's high values - this is immediarely below - scatter of x values vs shap values, with histogram of positive/negative predictions in each bin
     # Then exclude those X>90/95 values and look at Y, Z dependence plot interaction - see the 50-90 range important, 
-    colors = [(0, "r"), (0.5, "y"), (1, "g")]  # Color transitions from red to green
+    # colors = [(0, "r"), (0.5, "y"), (1, "g")]  # Color transitions from red to green
+    pos_colour = "tab:orange"
+    neg_colour = "tab:blue"
+    colors = [(0, "tab:blue"), (0.5, "lightgrey"), (1, pos_colour)]
     cmap = LinearSegmentedColormap.from_list("my_custom_colormap", colors)
     X_col = 4; Y_col = 5; Z_col = 6
     # Set plot properties
@@ -158,11 +162,11 @@ def figure_5(y_trial,X_trial_before_scaled,shap_values,factors_to_exclude):
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
     
     ax2.bar(bin_centers, hist_counts_pos / (hist_counts_pos + hist_counts_neg), 
-            width=5, color='g', edgecolor='black', alpha=bar_alpha, label='predict responsive')
+            width=5, color=pos_colour, edgecolor='black', alpha=bar_alpha, label='predict responsive')
     
     ax2.bar(bin_centers, hist_counts_neg / (hist_counts_pos + hist_counts_neg),
             width=5, bottom=hist_counts_pos / (hist_counts_pos + hist_counts_neg),
-            color='r', edgecolor='black', alpha=bar_alpha, label='predict not responsive')
+            color=neg_colour, edgecolor='black', alpha=bar_alpha, label='predict not responsive')
     
     ax1[0].set_ylim(-4, 4)
     ax2.set_ylim(0, 1)
@@ -206,11 +210,11 @@ def figure_5(y_trial,X_trial_before_scaled,shap_values,factors_to_exclude):
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
     
     ax2.bar(bin_centers, hist_counts_pos / (hist_counts_pos + hist_counts_neg), 
-            width=5, color='g', edgecolor='black', alpha=bar_alpha, label='predict responsive')
+            width=5, color=pos_colour, edgecolor='black', alpha=bar_alpha, label='predict responsive')
     
     ax2.bar(bin_centers, hist_counts_neg / (hist_counts_pos + hist_counts_neg),
             width=5, bottom=hist_counts_pos / (hist_counts_pos + hist_counts_neg),
-            color='r', edgecolor='black', alpha=bar_alpha, label='predict not responsive')
+            color=neg_colour, edgecolor='black', alpha=bar_alpha, label='predict not responsive')
     
     ax1[1].set_ylim(-4, 4)
     ax2.set_ylim(0, 1)
@@ -260,11 +264,11 @@ def figure_5(y_trial,X_trial_before_scaled,shap_values,factors_to_exclude):
         bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
         
         ax2.bar(bin_centers, hist_counts_pos / (hist_counts_pos + hist_counts_neg), 
-                width=0.5, color='g', edgecolor='black', alpha=bar_alpha, label='predict responsive')
+                width=0.5, color=pos_colour, edgecolor='black', alpha=bar_alpha, label='predict responsive')
         
         ax2.bar(bin_centers, hist_counts_neg / (hist_counts_pos + hist_counts_neg),
                 width=0.5, bottom=hist_counts_pos / (hist_counts_pos + hist_counts_neg),
-                color='r', edgecolor='black', alpha=bar_alpha, label='predict not responsive')
+                color=neg_colour, edgecolor='black', alpha=bar_alpha, label='predict not responsive')
         
         ax1[2].set_ylim(-4, 4)
         ax1[2].set_xlim([-0.5, 1.5])
